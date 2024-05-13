@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "Ticket Search";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .header {
+            background-color: #007bff;
+            padding: 10px;
+            color: white;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .button-group {
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Ticket Search</h1>
+        </div>
+        <form>
+            <div class="form-group">
+                <label for="origin">From</label>
+                <input type="text" id="origin" class="form-control" placeholder="İstanbul Avrupa">
+            </div>
+            <div class="form-group">
+                <label for="destination">To</label>
+                <input type="text" id="destination" class="form-control" placeholder="Ankara">
+            </div>
+            <div class="form-group">
+                <label for="date">Date</label>
+                <input type="date" id="date" class="form-control">
+            </div>
+            <div class="button-group">
+                <button type="submit" class="btn">Find Ticket</button>
+            </div>
+        </form>
+        <div>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+        </div>
+    </div>
+</body>
+</html>

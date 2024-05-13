@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using ObiletCase.Models;
+using ObiletCase.WebUI.Models;
 
-namespace ObiletCase.Controllers
+namespace ObiletCase.WebUI.Controllers
 {
     public class HomeController : Controller
     {

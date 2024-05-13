@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Views\Journey\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Journey\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ObiletCase\Application\ObiletCase.AppService.Contract\ObiletCase.AppService.Contract.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\ObiletCase\Application\ObiletCase.AppService.Bootstrapper\ObiletCase.AppService.Bootstrapper.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
