@@ -6,9 +6,12 @@
 
   <ItemGroup>
     <None Remove="Views\Journey\" />
+    <None Remove="Contract\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Journey\" />
+    <Folder Include="Contract\" />
+    <Folder Include="wwwroot\obilet\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ObiletCase\Application\ObiletCase.AppService.Contract\ObiletCase.AppService.Contract.csproj">
@@ -17,5 +20,11 @@
     <ProjectReference Include="..\ObiletCase\Application\ObiletCase.AppService.Bootstrapper\ObiletCase.AppService.Bootstrapper.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+    <ProjectReference Include="..\ObiletCase.Core.Contract\ObiletCase.Core.Contract.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\obilet\" />
   </ItemGroup>
 </Project>

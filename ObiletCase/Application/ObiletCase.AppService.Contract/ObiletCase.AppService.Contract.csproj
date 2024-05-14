@@ -8,11 +8,13 @@
     <None Remove="Service\" />
     <None Remove="Model\" />
     <None Remove="Model\Session\" />
+    <None Remove="Model\BusLocation\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Service\" />
     <Folder Include="Model\" />
     <Folder Include="Model\Session\" />
+    <Folder Include="Model\BusLocation\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

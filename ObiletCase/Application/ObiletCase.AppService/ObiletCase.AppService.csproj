@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ObiletCase.AppService.Contract\ObiletCase.AppService.Contract.csproj" />
+    <ProjectReference Include="..\..\..\ObiletCase.Core.Contract\ObiletCase.Core.Contract.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Flurl.Http" Version="2.4.2" />

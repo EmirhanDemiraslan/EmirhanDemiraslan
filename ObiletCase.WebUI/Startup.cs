@@ -8,18 +8,33 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using ObiletCase.AppService.Bootstrapper;
+using ObiletCase.Core.Contract.AppSettings;
+using ObiletCase.WebUI.Contract;
 
 namespace ObiletCase.WebUI
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+        private readonly AppSettings _appSettings;
+        public IConfiguration _configuration { get; }
 
-        public IConfiguration Configuration { get; }
+        public Startup(IWebHostEnvironment hostingEnvironment)
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(hostingEnvironment.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{hostingEnvironment.EnvironmentName}.json", optional: true);
+
+            builder.AddEnvironmentVariables();
+
+            _configuration = builder.Build();
+
+            _appSettings = new AppSettings();
+            var section = _configuration.GetSection("AppSettings");
+            new ConfigureFromConfigurationOptions<AppSettings>(section).Configure(_appSettings);
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -35,6 +50,8 @@ namespace ObiletCase.WebUI
             });
 
             BaseBootstrapper bootstrapper = new BaseBootstrapper(services);
+
+            services.AddSingleton<IAppSettings>(_appSettings);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -51,37 +51,78 @@
             cursor: pointer;
         }
 
-        .btn:hover {
-            background-color: #0056b3;
-        }
+            .btn:hover {
+                background-color: #0056b3;
+            }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Ticket Search</h1>
+    <div class="card card-custom example example-compact" style="margin:30px;">
+        <div class="card-header">
+            <h3 class="card-title">Filters</h3>
         </div>
-        <form>
-            <div class="form-group">
-                <label for="origin">From</label>
-                <input type="text" id="origin" class="form-control" placeholder="İstanbul Avrupa">
-            </div>
-            <div class="form-group">
-                <label for="destination">To</label>
-                <input type="text" id="destination" class="form-control" placeholder="Ankara">
-            </div>
-            <div class="form-group">
-                <label for="date">Date</label>
-                <input type="date" id="date" class="form-control">
-            </div>
-            <div class="button-group">
-                <button type="submit" class="btn">Find Ticket</button>
+        <!--begin::Form-->
+        <form id="frmReportParam">
+            <div class="card-body">
+                <div class="form-group row" style="display:flex; justify-content:center; align-items:center;">
+                    <label class="col-form-label text-right col-lg-1 col-sm-12">Nereden</label>
+                    <div class="col-lg-3 col-md-3 col-sm-12 validation">
+                        <select class="form-control" id="from" name="from" style="width: 100%" data-width data-validation-rule="{'required':'true','message':'Lütfen kalkış noktası seçiniz!'}">
+                            <option label="Label"></option>
+                        </select>
+                    </div>
+                    <label class="col-form-label text-right col-lg-1 col-sm-12">Nereye</label>
+                    <div class="col-lg-3 col-md-3 col-sm-12 validation">
+                        <select class="form-control" id="to" name="to" style="width: 100%" data-width data-validation-rule="{'required':'true','message':'Lütfen varış noktası seçiniz!'}">
+                            <option label="Label"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-form-label text-right col-lg-2 col-sm-12">Gidiş Tarihi</label>
+                    <div class="col-lg-4 col-md-9 col-sm-12">
+                        <div class="input-group date">
+                            <input type="text" class="form-control" id="SelectedDate" name="SelectedDate" data-type="datetime" placeholder="">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="la la-calendar-check-o"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row" style="display:flex; align-items:center; margin-left:190px;">
+                    <div class="col-lg-3 col-md-3 col-sm-12 validation" style="margin-left:77px;">
+                        <button type="button" class="btn btn-primary font-weight-bold" style="width:100px;" onclick="getData()">Bilet Bul</button>
+                    </div>
+                </div>
             </div>
         </form>
-        <div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
-        </div>
+        <!--end::Form-->
     </div>
 </body>
 </html>
+
+<script src="~/assets/js/moment-js/moment.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/obilet/data.js"></script>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        DepartureLoad(null);
+    });
+
+    function DepartureLoad(selectedValue) {
+        $.ajax({
+            url: '/Common/GetAvailableLocations',
+            type: 'POST',
+            success: function (response) {
+                Input.SelectLoad({ Id: 'from', data: response, text: 'Text', value: 'Value', selectedValue: selectedValue });
+            },
+            error: function (xhr, status, error) {
+                console.error('Failed: ', error);
+            }
+        });
+    }
+</script>

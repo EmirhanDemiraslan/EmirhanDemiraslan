@@ -23,8 +23,8 @@ namespace ObiletCase.WebUI.Controllers
             if (string.IsNullOrEmpty(sessionId))
             {
                 var sessionResponse = await _obiletService.GetSessionAsync();
-				sessionId = sessionResponse.data.sessionid;
-                HttpContext.Session.SetString("SessionId", sessionId);
+                HttpContext.Session.SetString("SessionId", sessionResponse.data.sessionid);
+                HttpContext.Session.SetString("DeviceId", sessionResponse.data.deviceid);
             }
 
             return View();

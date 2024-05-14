@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 25.0.1706.11
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{797357B2-E525-4F85-BC11-35F75E61EE7C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03-Presentation", "03-Presentation", "{797357B2-E525-4F85-BC11-35F75E61EE7C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{35E8DCDB-1DF0-438E-B85D-5034E89B75B1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02-Application", "02-Application", "{35E8DCDB-1DF0-438E-B85D-5034E89B75B1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObiletCase.WebUI", "ObiletCase.WebUI\ObiletCase.WebUI.csproj", "{EA107EED-74EB-499F-8564-62AEB9513EFF}"
 EndProject
@@ -14,6 +14,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObiletCase.AppService.Bootstrapper", "ObiletCase\Application\ObiletCase.AppService.Bootstrapper\ObiletCase.AppService.Bootstrapper.csproj", "{8F4FB0D4-5B48-4190-A9BE-5AD73E3A0669}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObiletCase.AppService", "ObiletCase\Application\ObiletCase.AppService\ObiletCase.AppService.csproj", "{78F0CC8E-BB3F-4B6D-ABF3-41C8A95C9EBE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01-Core", "01-Core", "{F6D54B85-F22B-4F94-960C-21B6714283C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObiletCase.Core", "ObiletCase.Core\ObiletCase.Core.csproj", "{F8200FF6-F9A3-4F85-9EB2-234F68A7E9EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObiletCase.Core.Contract", "ObiletCase.Core.Contract\ObiletCase.Core.Contract.csproj", "{C1657F41-7C5F-477F-B011-7211C75FFA01}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +43,14 @@ Global
 		{78F0CC8E-BB3F-4B6D-ABF3-41C8A95C9EBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78F0CC8E-BB3F-4B6D-ABF3-41C8A95C9EBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78F0CC8E-BB3F-4B6D-ABF3-41C8A95C9EBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8200FF6-F9A3-4F85-9EB2-234F68A7E9EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8200FF6-F9A3-4F85-9EB2-234F68A7E9EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8200FF6-F9A3-4F85-9EB2-234F68A7E9EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8200FF6-F9A3-4F85-9EB2-234F68A7E9EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1657F41-7C5F-477F-B011-7211C75FFA01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1657F41-7C5F-477F-B011-7211C75FFA01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1657F41-7C5F-477F-B011-7211C75FFA01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1657F41-7C5F-477F-B011-7211C75FFA01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,5 +63,7 @@ Global
 		{734062A9-265F-40D6-9FC5-C05F6C68FD6D} = {35E8DCDB-1DF0-438E-B85D-5034E89B75B1}
 		{8F4FB0D4-5B48-4190-A9BE-5AD73E3A0669} = {35E8DCDB-1DF0-438E-B85D-5034E89B75B1}
 		{78F0CC8E-BB3F-4B6D-ABF3-41C8A95C9EBE} = {35E8DCDB-1DF0-438E-B85D-5034E89B75B1}
+		{F8200FF6-F9A3-4F85-9EB2-234F68A7E9EB} = {F6D54B85-F22B-4F94-960C-21B6714283C4}
+		{C1657F41-7C5F-477F-B011-7211C75FFA01} = {F6D54B85-F22B-4F94-960C-21B6714283C4}
 	EndGlobalSection
 EndGlobal
