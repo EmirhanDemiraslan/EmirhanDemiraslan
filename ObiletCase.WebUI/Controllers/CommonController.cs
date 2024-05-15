@@ -32,16 +32,25 @@ namespace ObiletCase.WebUI.Controllers
             searchModel.SessionId = HttpContext.Session.GetString("SessionId");
             searchModel.DeviceId = HttpContext.Session.GetString("DeviceId");
 
-            var result = await _obiletService.GetAvailableBussLocations(searchModel);
+            var result = await _obiletService.GetAvailableBusLocations(searchModel);
             var optionList = new List<SelectOptionModel>();
-            Parallel.ForEach(result.data.Take(10), x =>
+
+            foreach (var item in result.data.Where(t => t.id.HasValue).Take(10))
             {
                 optionList.Add(new SelectOptionModel
                 {
-                    Value = x.id.ToString(),
-                    Text = x.name
+                    id = item.id.Value,
+                    name = item.name
                 });
-            });
+            }
+            //Parallel.ForEach(result.data.Where(t => t.id.HasValue).Take(10), x =>
+            //{
+            //    optionList.Add(new SelectOptionModel
+            //    {
+            //        id = x.id.Value,
+            //        name = x.name
+            //    });
+            //});
 
             return Ok(optionList);
         }

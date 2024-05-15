@@ -1,0 +1,50 @@
+﻿.container {
+    width: 90%;
+    margin: auto;
+    padding: 20px;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+h1, h2 {
+    text-align: center;
+}
+
+.journey-card {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.time-price {
+    display: flex;
+    align-items: center;
+}
+
+    .time-price span {
+        margin-right: 10px;
+    }
+
+.price {
+    color: red;
+    font-weight: bold;
+}
+
+.locations {
+    text-align: right;
+}

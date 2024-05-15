@@ -2,8 +2,216 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Bus Ticket Search</title>
+    <script src="~/obilet/data.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js" defer></script>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="search-box">
+            <div class="form-group">
+                <label for="origin">Nereden</label>
+                <select id="origin" class="form-control" onchange="storeValue('origin')">
+                </select>
+                <button type="button" id="swap-locations" onclick="swapLocations()">↕</button>
+            </div>
+            <div class="form-group">
+                <label for="destination">Nereye</label>
+                <select id="destination" class="form-control" onchange="storeValue('destination')">
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="date">Tarih</label>
+                <input type="date" id="date" class="form-control" value="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")" />
+                <button type="button" id="today" onclick="setToday()">Bugün</button>
+                <button type="button" id="tomorrow" onclick="setTomorrow()">Yarın</button>
+            </div>
+            <button type="submit" id="search-button" class="btn btn-primary" onclick="searchTickets()">Bileti Bul</button>
+        </div>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+
+    jQuery(document).ready(function () {
+        AvailableLocationsLoad();
+        //initializeSelect2();
+        attachSearchListener();
+    });
+
+    function AvailableLocationsLoad() {
+        $.ajax({
+            url: '/Common/GetAvailableLocations',
+            type: 'POST',
+            success: function (response) {
+                let origin = localStorage.getItem('origin');
+                let destination = localStorage.getItem('destination');
+
+                Input.SelectLoad({ Id: 'origin', data: response, text: 'name', value: 'id', firstOptionText: null, selectedValue: origin ? origin : 349 });
+                Input.SelectLoad({ Id: 'destination', data: response, text: 'name', value: 'id', firstOptionText: null, selectedValue: destination ? destination : 356 });
+
+                storeValue('origin');
+                storeValue('destination');
+            },
+            error: function (xhr, status, error) {
+                console.error('Failed: ', error);
+            }
+        });
+    }
+
+    function initializeSelect2() {
+        $('#origin').select2({
+            placeholder: 'Nereden',
+            minimumInputLength: 1,
+            ajax: {
+                url: '/Common/GetAvailableLocations',
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        searchText: params.term
+                    };
+                },
+                processResults: function (response) {
+                    Input.SelectLoad({ Id: 'origin', data: response, text: 'name', value: 'id', firstOptionText: null, selectedValue: null });
+                },
+                cache: true
+            }
+        });
+
+        $('#destination').select2({
+            placeholder: 'Nereye',
+            minimumInputLength: 1,
+            ajax: {
+                url: '/Common/GetAvailableLocations',
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        searchText: params.term
+                    };
+                },
+                processResults: function (response) {
+                    Input.SelectLoad({ Id: 'origin', data: response, text: 'name', value: 'id', firstOptionText: null, selectedValue: null });
+                },
+                cache: true
+            }
+        });
+    }
+
+    function attachSearchListener() {
+        $(document).on('input', '.select2-search__field', function () {
+            var searchTerm = $(this).val();
+            if (searchTerm.length >= 1) {
+
+                var selectId = $(this).attr('aria-controls').split('-')[1];
+                makeAjaxRequest(searchTerm, selectId);
+            }
+        });
+    }
+
+    function makeAjaxRequest(searchTerm, selectId) {
+        $.ajax({
+            url: '/Common/GetAvailableLocations',
+            dataType: 'json',
+            delay: 250,
+            data: {
+                searchText: searchTerm
+            },
+            success: function (response) {
+                updateSelectOptions(response, selectId);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log('Error fetching data:', textStatus, errorThrown);
+            }
+        });
+    }
+
+    function updateSelectOptions(data, selectId) {
+        var selectElement = $('#' + selectId);
+        selectElement.empty();
+        data.forEach(function (item) {
+            var option = new Option(item.name, item.id, false, false);
+            selectElement.append(option);
+        });
+        selectElement.trigger('change');
+
+        selectElement.select2();
+    }
+
+    function storeValue(field) {
+        let value = document.getElementById(field).value;
+        localStorage.setItem(field, value);
+    }
+
+    function swapLocations() {
+        let origin = document.getElementById('origin').value;
+        let destination = document.getElementById('destination').value;
+        document.getElementById('origin').value = destination;
+        document.getElementById('destination').value = origin;
+        storeValue('origin');
+        storeValue('destination');
+    }
+
+    function setToday() {
+        let today = new Date().toISOString().split('T')[0];
+        document.getElementById('date').value = today;
+        storeValue('date');
+    }
+
+    function setTomorrow() {
+        let tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        let tomorrowStr = tomorrow.toISOString().split('T')[0];
+        document.getElementById('date').value = tomorrowStr;
+        storeValue('date');
+    }
+
+    function loadStoredValues() {
+        let origin = localStorage.getItem('origin');
+        let destination = localStorage.getItem('destination');
+        let date = localStorage.getItem('date');
+        if (origin) document.getElementById('origin').value = origin;
+        if (destination) document.getElementById('destination').value = destination;
+        if (date) document.getElementById('date').value = date;
+    }
+
+    window.onload = function () {
+        loadStoredValues();
+    };
+
+    function searchTickets() {
+        let origin = document.getElementById('origin').value;
+        let destination = document.getElementById('destination').value;
+        let date = document.getElementById('date').value;
+
+        storeValue('origin');
+        storeValue('destination');
+
+        if (!origin || !destination || !date) {
+            alert('Lütfen tüm alanları doldurun!');
+            return;
+        }
+
+        if (origin === destination) {
+            alert('Kalkış ve varış noktası aynı olamaz!');
+            return;
+        }
+
+        let today = new Date().toISOString().split('T')[0];
+        if (date < today) {
+            alert('Kalkış tarihi bugünden eski olamaz!');
+            return;
+        }
+
+        window.location.href = `/Journey/index?origin=${origin}&destination=${destination}&date=${date}`;
+    }</script>
 

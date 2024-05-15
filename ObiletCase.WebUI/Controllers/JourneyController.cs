@@ -1,8 +1,12 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using ObiletCase.AppService.Contract.Model.Journey;
 using ObiletCase.AppService.Contract.Service;
+using ObiletCase.WebUI.Models;
+using System;
 
 namespace ObiletCase.WebUI.Controllers
 {
@@ -16,32 +20,39 @@ namespace ObiletCase.WebUI.Controllers
 			_obiletService = obiletService;
 		}
 
-		public async Task<IActionResult> Index()
+		public async Task<IActionResult> Index(JourneyParamsModel model)
 		{
-            string sessionId = HttpContext.Session.GetString("SessionId");
+			model.sessionId = HttpContext.Session.GetString("SessionId");
+			model.deviceId = HttpContext.Session.GetString("DeviceId");
 
-            if (string.IsNullOrEmpty(sessionId))
-            {
-                var sessionResponse = await _obiletService.GetSessionAsync();
-                HttpContext.Session.SetString("SessionId", sessionResponse.data.sessionid);
-                HttpContext.Session.SetString("DeviceId", sessionResponse.data.deviceid);
-            }
+			var result = await _obiletService.GetJourneysByParamsAsync(model);
+			var journeys = new List<JourneyIndexModel>();
 
-            return View();
-        }
+			//foreach (var item in result.data.OrderBy(t => t.journey.departure))
+			//{
+			//             journeys.Add(new JourneyIndexModel
+			//             {
+			//                 DepartureTime = item.journey.departure.ToString(),
+			//                 ArrivalTime = item.journey.arrival.ToString(),
+			//                 Destination = item.journey.destination,
+			//                 Origin = item.journey.origin,
+			//                 Price = Convert.ToDecimal(item.journey.originalprice)
+			//             });
+			//         }
 
-        public async Task<IActionResult> Results()
-        {
-            string sessionId = HttpContext.Session.GetString("SessionId");
+			Parallel.ForEach(result.data.OrderBy(t => t.journey.departure), x =>
+			{
+				journeys.Add(new JourneyIndexModel
+				{
+					DepartureTime = x.journey.departure.ToString(),
+					ArrivalTime = x.journey.arrival.ToString(),
+					Destination = x.journey.destination,
+					Origin = x.journey.origin,
+					Price = Convert.ToDecimal(x.journey.originalprice)
+				});
+			});
 
-            if (string.IsNullOrEmpty(sessionId))
-            {
-                var sessionResponse = await _obiletService.GetSessionAsync();
-                sessionId = sessionResponse.data.sessionid;
-                HttpContext.Session.SetString("SessionId", sessionId);
-            }
-
-            return View();
+			return View(journeys);
         }
     }
 }

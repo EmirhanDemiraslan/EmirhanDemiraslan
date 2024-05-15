@@ -1,128 +1,32 @@
-﻿@{
-    ViewBag.Title = "Ticket Search";
-}
+﻿@model List<JourneyIndexModel>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-
-        .container {
-            width: 80%;
-            margin: auto;
-            padding: 20px;
-        }
-
-        .header {
-            background-color: #007bff;
-            padding: 10px;
-            color: white;
-            text-align: center;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .button-group {
-            text-align: right;
-            margin-top: 10px;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            color: white;
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-            .btn:hover {
-                background-color: #0056b3;
-            }
-    </style>
+    <meta charset="utf-8" />
+    <title>Journey List</title>
+    <link rel="stylesheet" href="~/css/journey.css" />
 </head>
-
 <body>
-    <div class="card card-custom example example-compact" style="margin:30px;">
-        <div class="card-header">
-            <h3 class="card-title">Filters</h3>
-        </div>
-        <!--begin::Form-->
-        <form id="frmReportParam">
-            <div class="card-body">
-                <div class="form-group row" style="display:flex; justify-content:center; align-items:center;">
-                    <label class="col-form-label text-right col-lg-1 col-sm-12">Nereden</label>
-                    <div class="col-lg-3 col-md-3 col-sm-12 validation">
-                        <select class="form-control" id="from" name="from" style="width: 100%" data-width data-validation-rule="{'required':'true','message':'Lütfen kalkış noktası seçiniz!'}">
-                            <option label="Label"></option>
-                        </select>
-                    </div>
-                    <label class="col-form-label text-right col-lg-1 col-sm-12">Nereye</label>
-                    <div class="col-lg-3 col-md-3 col-sm-12 validation">
-                        <select class="form-control" id="to" name="to" style="width: 100%" data-width data-validation-rule="{'required':'true','message':'Lütfen varış noktası seçiniz!'}">
-                            <option label="Label"></option>
-                        </select>
-                    </div>
+    <div class="container">
+        <button onclick="window.location.href='@Url.Action("Index", "Home")'">←</button>
+        <h1>@ViewBag.Origin - @ViewBag.Destination</h1>
+        <h2>@ViewBag.DepartureDate</h2>
+        @foreach (var journey in Model)
+        {
+            <div class="journey-card">
+                <div class="time-price">
+                    <span class="departure">@journey.DepartureTime</span> →
+                    <span class="arrival">@journey.ArrivalTime</span>
+                    <span class="price">@journey.Price.ToString("C")</span>
                 </div>
-                <div class="form-group row">
-                    <label class="col-form-label text-right col-lg-2 col-sm-12">Gidiş Tarihi</label>
-                    <div class="col-lg-4 col-md-9 col-sm-12">
-                        <div class="input-group date">
-                            <input type="text" class="form-control" id="SelectedDate" name="SelectedDate" data-type="datetime" placeholder="">
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="la la-calendar-check-o"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row" style="display:flex; align-items:center; margin-left:190px;">
-                    <div class="col-lg-3 col-md-3 col-sm-12 validation" style="margin-left:77px;">
-                        <button type="button" class="btn btn-primary font-weight-bold" style="width:100px;" onclick="getData()">Bilet Bul</button>
-                    </div>
+                <div class="locations">
+                    <span>@journey.Origin</span> - <span>@journey.Destination</span>
                 </div>
             </div>
-        </form>
-        <!--end::Form-->
+        }
     </div>
 </body>
 </html>
 
-<script src="~/assets/js/moment-js/moment.min.js"></script>
-<script src="~/lib/jquery/dist/jquery.js"></script>
-<script src="~/obilet/data.js"></script>
 
-<script type="text/javascript">
-    jQuery(document).ready(function () {
-        DepartureLoad(null);
-    });
-
-    function DepartureLoad(selectedValue) {
-        $.ajax({
-            url: '/Common/GetAvailableLocations',
-            type: 'POST',
-            success: function (response) {
-                Input.SelectLoad({ Id: 'from', data: response, text: 'Text', value: 'Value', selectedValue: selectedValue });
-            },
-            error: function (xhr, status, error) {
-                console.error('Failed: ', error);
-            }
-        });
-    }
-</script>

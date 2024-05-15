@@ -3,8 +3,8 @@ namespace ObiletCase.WebUI.Models
 {
 	public class SelectOptionModel
 	{
-        public string Value { get; set; }
-        public string Text { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
     }
 }
 
