@@ -4,4 +4,20 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="HttpClient\" />
+    <None Remove="Helper\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="HttpClient\" />
+    <Folder Include="Helper\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ObiletCase.Core.Contract\ObiletCase.Core.Contract.csproj" />
+    <ProjectReference Include="..\ObiletCase\Application\ObiletCase.AppService.Contract\ObiletCase.AppService.Contract.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Flurl.Http" Version="4.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.0" />
+  </ItemGroup>
 </Project>

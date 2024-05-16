@@ -29,5 +29,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Linq" Version="4.3.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.0" />
   </ItemGroup>
 </Project>

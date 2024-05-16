@@ -57,9 +57,6 @@
 
                 Input.SelectLoad({ Id: 'origin', data: response, text: 'name', value: 'id', firstOptionText: null, selectedValue: origin ? origin : 349 });
                 Input.SelectLoad({ Id: 'destination', data: response, text: 'name', value: 'id', firstOptionText: null, selectedValue: destination ? destination : 356 });
-
-                storeValue('origin');
-                storeValue('destination');
             },
             error: function (xhr, status, error) {
                 console.error('Failed: ', error);
@@ -137,18 +134,23 @@
 
     function updateSelectOptions(data, selectId) {
         var selectElement = $('#' + selectId);
-        selectElement.empty();
-        data.forEach(function (item) {
-            var option = new Option(item.name, item.id, false, false);
-            selectElement.append(option);
-        });
-        selectElement.trigger('change');
+        //selectElement.empty();
+        //selectElement.select2('destroy');
+        //data.forEach(function (item) {
+        //    var option = new Option(item.name, item.id, false, false);
+        //    selectElement.append(option);
+        //});
+        //selectElement.trigger('change');
+
+        Input.SelectLoad({ Id: selectId, data: data, text: 'name', value: 'id', firstOptionText: null, selectedValue: null });
 
         selectElement.select2();
     }
 
     function storeValue(field) {
         let value = document.getElementById(field).value;
+        console.log(field);
+        console.log(value);
         localStorage.setItem(field, value);
     }
 
@@ -179,6 +181,10 @@
         let origin = localStorage.getItem('origin');
         let destination = localStorage.getItem('destination');
         let date = localStorage.getItem('date');
+        console.log(origin);
+        console.log(destination);
+        console.log(date);
+
         if (origin) document.getElementById('origin').value = origin;
         if (destination) document.getElementById('destination').value = destination;
         if (date) document.getElementById('date').value = date;
@@ -191,6 +197,12 @@
     function searchTickets() {
         let origin = document.getElementById('origin').value;
         let destination = document.getElementById('destination').value;
+        let originName = document.getElementById('origin').querySelector(`option[value="${origin}"]`).textContent;
+        let destinationName = document.getElementById('destination').querySelector(`option[value="${destination}"]`).textContent;
+
+        console.log(originName);
+        console.log(destinationName);
+
         let date = document.getElementById('date').value;
 
         storeValue('origin');
@@ -212,6 +224,6 @@
             return;
         }
 
-        window.location.href = `/Journey/index?origin=${origin}&destination=${destination}&date=${date}`;
+        window.location.href = `/Journey/index?origin=${origin}&destination=${destination}&date=${date}&originName=${originName}&destinationName=${destinationName}`;
     }</script>
 

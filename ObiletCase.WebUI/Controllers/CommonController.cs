@@ -29,13 +29,11 @@ namespace ObiletCase.WebUI.Controllers
         {
             var searchModel = new BusLocationSearchModel();
             searchModel.SearchText = !string.IsNullOrEmpty(searchText) ? searchText : null;
-            searchModel.SessionId = HttpContext.Session.GetString("SessionId");
-            searchModel.DeviceId = HttpContext.Session.GetString("DeviceId");
 
             var result = await _obiletService.GetAvailableBusLocations(searchModel);
             var optionList = new List<SelectOptionModel>();
 
-            foreach (var item in result.data.Where(t => t.id.HasValue).Take(10))
+            foreach (var item in result.data.Where(t => t.id.HasValue))
             {
                 optionList.Add(new SelectOptionModel
                 {

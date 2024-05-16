@@ -1,5 +1,9 @@
 ﻿@model List<JourneyIndexModel>
 
+@{
+    ViewData["Title"] = "Journey Page";
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,16 +13,20 @@
 </head>
 <body>
     <div class="container">
-        <button onclick="window.location.href='@Url.Action("Index", "Home")'">←</button>
+        <button onclick="window.location.href='@Url.Action("Index", "Home")'"> ← </button>
         <h1>@ViewBag.Origin - @ViewBag.Destination</h1>
-        <h2>@ViewBag.DepartureDate</h2>
+        <h2>@ViewBag.Date</h2>
         @foreach (var journey in Model)
         {
             <div class="journey-card">
                 <div class="time-price">
+                    <span class="departure">Kalkış</span>
+                    <span class="arrival">Varış</span>
+                </div>
+                <div class="time-price">
                     <span class="departure">@journey.DepartureTime</span> →
-                    <span class="arrival">@journey.ArrivalTime</span>
-                    <span class="price">@journey.Price.ToString("C")</span>
+                    <span class="arrival"> @journey.ArrivalTime</span>
+                    <span class="price">@journey.Price.ToString("C")₺</span>
                 </div>
                 <div class="locations">
                     <span>@journey.Origin</span> - <span>@journey.Destination</span>

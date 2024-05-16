@@ -6,8 +6,12 @@
 
   <ItemGroup>
     <None Remove="AppSettings\" />
+    <None Remove="HttpClient\" />
+    <None Remove="Model\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AppSettings\" />
+    <Folder Include="HttpClient\" />
+    <Folder Include="Model\" />
   </ItemGroup>
 </Project>

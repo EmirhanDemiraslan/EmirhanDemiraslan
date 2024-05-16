@@ -13,8 +13,9 @@
   <ItemGroup>
     <ProjectReference Include="..\ObiletCase.AppService.Contract\ObiletCase.AppService.Contract.csproj" />
     <ProjectReference Include="..\..\..\ObiletCase.Core.Contract\ObiletCase.Core.Contract.csproj" />
+    <ProjectReference Include="..\..\..\ObiletCase.Core\ObiletCase.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Flurl.Http" Version="2.4.2" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.0" />
   </ItemGroup>
 </Project>

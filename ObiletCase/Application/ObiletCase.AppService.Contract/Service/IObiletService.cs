@@ -8,7 +8,7 @@ namespace ObiletCase.AppService.Contract.Service
 {
 	public interface IObiletService
 	{
-        Task<SessionResponseModel> GetSessionAsync();
+        Task GetSessionAndSetToCacheAsync();
         Task<BusLocationResponseModel> GetAvailableBusLocations(BusLocationSearchModel model);
         Task<JourneyResponseModel> GetJourneysByParamsAsync(JourneyParamsModel model);
     }

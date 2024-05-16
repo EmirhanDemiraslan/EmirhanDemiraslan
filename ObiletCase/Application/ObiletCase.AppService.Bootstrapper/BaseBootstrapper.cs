@@ -1,6 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using Microsoft.Extensions.DependencyInjection;
 using ObiletCase.AppService.Contract.Service;
 using ObiletCase.AppService.Service;
+using ObiletCase.Core.Contract.HttpClient;
+using ObiletCase.Core.HttpClient;
 
 namespace ObiletCase.AppService.Bootstrapper
 {
@@ -19,6 +22,8 @@ namespace ObiletCase.AppService.Bootstrapper
         private void Install()
         {
             services.AddTransient<IObiletService, ObiletService>();
+            services.AddTransient<IHttpClientService, HttpClientService>();
+            //services.AddTransient<Func<IObiletService>>(provider => () => provider.GetRequiredService<IObiletService>());
         }
     }
 }

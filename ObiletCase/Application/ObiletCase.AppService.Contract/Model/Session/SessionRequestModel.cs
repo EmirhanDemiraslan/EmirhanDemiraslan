@@ -20,6 +20,6 @@ namespace ObiletCase.AppService.Contract.Model.Session
         public int type { get; set; } = 1;
         public Connection connection { get; set; } = new Connection();
         public Browser browser { get; set; } = new Browser();
-}
+    }
 }
 
