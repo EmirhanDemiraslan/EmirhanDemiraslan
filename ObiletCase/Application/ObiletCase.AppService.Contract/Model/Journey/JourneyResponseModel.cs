@@ -62,7 +62,7 @@ namespace ObiletCase.AppService.Contract.Model.Journey
         public string displayoffset { get; set; }
 
         [JsonProperty("partner-rating")]
-        public double partnerrating { get; set; }
+        public double? partnerrating { get; set; }
 
         [JsonProperty("has-dynamic-pricing")]
         public bool hasdynamicpricing { get; set; }

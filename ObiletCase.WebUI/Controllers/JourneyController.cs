@@ -24,15 +24,11 @@ namespace ObiletCase.WebUI.Controllers
 		public async Task<IActionResult> Index(JourneyParamsModel model)
 		{
 			var result = await _obiletService.GetJourneysByParamsAsync(model);
-            //if (result.status.Contains("DeviceSessionError"))
-            //{
-            //    return Redirect("/Home/Index?sessionError=true");
-            //}
 
             var journeys = new List<JourneyIndexModel>();
 			var cultureInfo = new CultureInfo("tr-TR");
 
-            foreach (var item in result.data.OrderBy(t => t.journey.departure))
+			foreach (var item in result.data.OrderBy(t => t.journey.departure))
 			{
 				journeys.Add(new JourneyIndexModel
 				{
@@ -47,19 +43,6 @@ namespace ObiletCase.WebUI.Controllers
 			ViewBag.Origin = model.originName;
 			ViewBag.Destination = model.destinationName;
 			ViewBag.Date = DateTime.ParseExact(model.date, "yyyy-MM-dd", cultureInfo).ToString("dd MMMM dddd", cultureInfo);
-
-   //         var orederedItems = result.data.OrderBy(t => t.journey.departure).ToList();
-   //         Parallel.ForEach(orederedItems, x =>
-			//{
-			//	journeys.Add(new JourneyIndexModel
-			//	{
-			//		DepartureTime = x.journey.departure.ToString(),
-			//		ArrivalTime = x.journey.arrival.ToString(),
-			//		Destination = x.journey.destination,
-			//		Origin = x.journey.origin,
-			//		Price = Convert.ToDecimal(x.journey.originalprice)
-			//	});
-			//});
 
 			return View(journeys);
         }

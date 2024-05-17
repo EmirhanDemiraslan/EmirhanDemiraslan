@@ -41,14 +41,6 @@ namespace ObiletCase.WebUI.Controllers
                     name = item.name
                 });
             }
-            //Parallel.ForEach(result.data.Where(t => t.id.HasValue).Take(10), x =>
-            //{
-            //    optionList.Add(new SelectOptionModel
-            //    {
-            //        id = x.id.Value,
-            //        name = x.name
-            //    });
-            //});
 
             return Ok(optionList);
         }

@@ -12,6 +12,79 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js" defer></script>
     <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+            .form-group label {
+                display: block;
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+
+            .form-group select, .form-group input {
+                width: calc(100% - 40px);
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                display: inline-block;
+            }
+
+            .form-group button {
+                background: none;
+                border: none;
+                cursor: pointer;
+                margin-left: 10px;
+                vertical-align: middle;
+                font-size: 18px;
+            }
+
+                .form-group button#today, .form-group button#tomorrow {
+                    padding: 5px 10px;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    margin-left: 10px;
+                }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -20,6 +93,8 @@
                 <label for="origin">Nereden</label>
                 <select id="origin" class="form-control" onchange="storeValue('origin')">
                 </select>
+            </div>
+            <div class="form-group">
                 <button type="button" id="swap-locations" onclick="swapLocations()">↕</button>
             </div>
             <div class="form-group">
@@ -29,11 +104,11 @@
             </div>
             <div class="form-group">
                 <label for="date">Tarih</label>
-                <input type="date" id="date" class="form-control" value="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")" />
+                <input type="date" id="date" class="form-control" value="@DateTime.UtcNow.AddHours(3).AddDays(1).ToString("yyyy-MM-dd");" />
                 <button type="button" id="today" onclick="setToday()">Bugün</button>
                 <button type="button" id="tomorrow" onclick="setTomorrow()">Yarın</button>
             </div>
-            <button type="submit" id="search-button" class="btn btn-primary" onclick="searchTickets()">Bileti Bul</button>
+            <button type="submit" id="search-button" class="btn btn-primary" onclick="searchTickets()">Bilet Bul</button>
         </div>
     </div>
 </body>
@@ -140,7 +215,6 @@
         //    var option = new Option(item.name, item.id, false, false);
         //    selectElement.append(option);
         //});
-        //selectElement.trigger('change');
 
         Input.SelectLoad({ Id: selectId, data: data, text: 'name', value: 'id', firstOptionText: null, selectedValue: null });
 
@@ -149,41 +223,52 @@
 
     function storeValue(field) {
         let value = document.getElementById(field).value;
-        console.log(field);
-        console.log(value);
         localStorage.setItem(field, value);
     }
 
     function swapLocations() {
         let origin = document.getElementById('origin').value;
         let destination = document.getElementById('destination').value;
+        console.log(origin);
+        console.log(destination);
         document.getElementById('origin').value = destination;
         document.getElementById('destination').value = origin;
+
+        $('#origin').trigger('change');
+        $('#destination').trigger('change');
+
         storeValue('origin');
         storeValue('destination');
     }
 
     function setToday() {
-        let today = new Date().toISOString().split('T')[0];
+        let gmtPlus3Time = getGMT3Date();
+        let today = gmtPlus3Time.toISOString().split('T')[0];
         document.getElementById('date').value = today;
         storeValue('date');
     }
 
     function setTomorrow() {
-        let tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        let tomorrowStr = tomorrow.toISOString().split('T')[0];
+        let gmtPlus3Time = getGMT3Date();
+        gmtPlus3Time.setDate(gmtPlus3Time.getDate() + 1);
+        let tomorrowStr = gmtPlus3Time.toISOString().split('T')[0];
         document.getElementById('date').value = tomorrowStr;
         storeValue('date');
+    }
+
+    function getGMT3Date() {
+        let now = new Date();
+        let gmtPlus3Offset = 3 * 60 * 60 * 1000;
+        let utcTime = now.getTime();
+        let gmtPlus3Time = new Date(utcTime + gmtPlus3Offset);
+
+        return gmtPlus3Time;
     }
 
     function loadStoredValues() {
         let origin = localStorage.getItem('origin');
         let destination = localStorage.getItem('destination');
         let date = localStorage.getItem('date');
-        console.log(origin);
-        console.log(destination);
-        console.log(date);
 
         if (origin) document.getElementById('origin').value = origin;
         if (destination) document.getElementById('destination').value = destination;
@@ -199,9 +284,6 @@
         let destination = document.getElementById('destination').value;
         let originName = document.getElementById('origin').querySelector(`option[value="${origin}"]`).textContent;
         let destinationName = document.getElementById('destination').querySelector(`option[value="${destination}"]`).textContent;
-
-        console.log(originName);
-        console.log(destinationName);
 
         let date = document.getElementById('date').value;
 

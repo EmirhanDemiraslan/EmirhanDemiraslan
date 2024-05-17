@@ -9,32 +9,124 @@
 <head>
     <meta charset="utf-8" />
     <title>Journey List</title>
-    <link rel="stylesheet" href="~/css/journey.css" />
+    @*<link rel="stylesheet" href="~/css/journey.css" />*@
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
+    .container {
+        width: 100%;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    h1, h2 {
+        text-align: center;
+        margin: 0;
+    }
+
+    h1 {
+        margin-bottom: 5px;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+        color: gray;
+    }
+
+    .journey-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .time-price {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .departure, .arrival {
+        font-weight: bold;
+    }
+
+    .price {
+        background-color: #f44336;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-weight: bold;
+    }
+
+    .locations {
+        text-align: center;
+        color: gray;
+    }
+
+    button {
+        background: none;
+        border: none;
+        font-size: 18px;
+        cursor: pointer;
+        margin-bottom: 20px;
+    }
+
+    .no-journey {
+        text-align: center;
+        color: gray;
+        font-size: 18px;
+    }
+</style>
 </head>
 <body>
     <div class="container">
         <button onclick="window.location.href='@Url.Action("Index", "Home")'"> ← </button>
         <h1>@ViewBag.Origin - @ViewBag.Destination</h1>
         <h2>@ViewBag.Date</h2>
-        @foreach (var journey in Model)
+        @if (Model.Any())
         {
-            <div class="journey-card">
-                <div class="time-price">
-                    <span class="departure">Kalkış</span>
-                    <span class="arrival">Varış</span>
+            @foreach (var journey in Model)
+            {
+                <div class="journey-card" style="margin-top:10px;">
+                    <div class="time-price">
+                        <span class="departure">Kalkış</span>
+                        <span class="arrival">Varış</span>
+                    </div>
+                    <div class="time-price">
+                        <span class="departure">@journey.DepartureTime</span> →
+                        <span class="arrival">@journey.ArrivalTime</span>
+                        <span class="price">@journey.Price.ToString("0.00")₺</span>
+                    </div>
+                    <div class="locations">
+                        <span>@journey.Origin</span> - <span>@journey.Destination</span>
+                    </div>
                 </div>
-                <div class="time-price">
-                    <span class="departure">@journey.DepartureTime</span> →
-                    <span class="arrival"> @journey.ArrivalTime</span>
-                    <span class="price">@journey.Price.ToString("C")₺</span>
-                </div>
-                <div class="locations">
-                    <span>@journey.Origin</span> - <span>@journey.Destination</span>
-                </div>
+            }
+        }
+        else
+        {
+            <div class="no-journey">
+                Uygun bilet bulunamadı
             </div>
         }
     </div>
 </body>
 </html>
+
 
 

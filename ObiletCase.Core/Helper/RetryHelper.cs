@@ -14,7 +14,7 @@ namespace ObiletCase.Core.Helper
                 {
                     return await operation();
                 }
-                catch (Exception ex)
+                catch
                 {
                     attempt++; 
                     if (attempt >= maxRetries)
